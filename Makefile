@@ -21,3 +21,14 @@ wasbook.box: /usr/local/bin/VBoxManage /usr/local/bin/vagrant .virtualbox/wasboo
 	rm -f wasbook.box && vagrant package --base wasbook --output wasbook.box
 	vagrant box add wasbook.box --force --name wasbook
 	VBoxManage unregistervm wasbook
+
+
+.PHONY: start stop destroy
+start: wasbook.box
+	/usr/local/bin/vagrant up wasbook
+
+stop:
+	/usr/local/bin/vagrant halt wasbook
+
+destroy:
+	/usr/local/bin/vagrant destroy wasbook
