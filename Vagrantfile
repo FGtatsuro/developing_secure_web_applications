@@ -9,6 +9,8 @@ Vagrant.configure("2") do |config|
       vb.name = "wasbook"
     end
 
+    wasbook.vm.synced_folder ".", "/vagrant", disabled: true
+
     wasbook.ssh.username = "wasbook"
     # 初回の認証でSSH鍵が作成されるため、その後はコメントアウトしても良い
     wasbook.ssh.password = ENV["WASBOOK_PASSWORD"]
