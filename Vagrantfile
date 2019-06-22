@@ -11,6 +11,8 @@ Vagrant.configure("2") do |config|
 
     wasbook.vm.synced_folder ".", "/vagrant", disabled: true
 
+    wasbook.vm.network "private_network", ip: "192.168.56.101"
+
     wasbook.ssh.username = "wasbook"
     # 初回の認証でSSH鍵が作成されるため、その後はコメントアウトしても良い
     wasbook.ssh.password = ENV["WASBOOK_PASSWORD"]
