@@ -1,6 +1,9 @@
 /usr/local/bin/VBoxManage:
 	brew cask install virtualbox
 
+/usr/local/bin/vagrant:
+	brew cask install vagrant
+
 
 wasbook.ova:
 	curl $(OVF_DOWNLOAD_LINK) -o wasbook.ova
@@ -12,3 +15,9 @@ wasbook.ova:
 		--unit 9 --ignore \
 		--unit 10 --ignore \
 		--unit 13 --ignore
+
+# FYI: https://qiita.com/mt08/items/457e5cd64db5a888ae2e
+wasbook.box: /usr/local/bin/VBoxManage /usr/local/bin/vagrant .virtualbox/wasbook/wasbook.vbox
+	rm -f wasbook.box && vagrant package --base wasbook --output wasbook.box
+	vagrant box add wasbook.box --force --name wasbook
+	VBoxManage unregistervm wasbook
