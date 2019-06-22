@@ -23,12 +23,15 @@ wasbook.box: /usr/local/bin/VBoxManage /usr/local/bin/vagrant .virtualbox/wasboo
 	VBoxManage unregistervm wasbook
 
 
-.PHONY: start stop destroy
+.PHONY: start stop destroy ssh
 start: wasbook.box
-	/usr/local/bin/vagrant up wasbook
+	WASBOOK_PASSWORD=$(WASBOOK_PASSWORD) /usr/local/bin/vagrant up wasbook
 
 stop:
 	/usr/local/bin/vagrant halt wasbook
 
 destroy:
 	/usr/local/bin/vagrant destroy wasbook
+
+ssh:
+	/usr/local/bin/vagrant ssh wasbook
