@@ -9,8 +9,6 @@ Vagrant.configure("2") do |config|
       vb.name = "wasbook"
     end
 
-    wasbook.vm.synced_folder ".", "/vagrant", disabled: true
-
     # 使用したイメージには既にネットワーク設定があり、auto_config=falseにしないとコンフリクトしてエラーになる
     # FYI: https://www.vagrantup.com/docs/networking/private_network.html#disable-auto-configuration
     wasbook.vm.network "private_network", ip: "192.168.56.101", auto_config: false
