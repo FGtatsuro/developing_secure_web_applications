@@ -2,4 +2,5 @@ wasbook.ova
 wasbook.box
 .virtualbox
 .vagrant
+.sudoers_settings
 

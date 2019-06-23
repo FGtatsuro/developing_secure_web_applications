@@ -22,9 +22,16 @@ wasbook.box: /usr/local/bin/VBoxManage /usr/local/bin/vagrant .virtualbox/wasboo
 	vagrant box add wasbook.box --force --name wasbook
 	VBoxManage unregistervm wasbook
 
+.sudoers_settings: wasbook.box
+	-WASBOOK_PASSWORD=$(WASBOOK_PASSWORD) /usr/local/bin/vagrant up wasbook
+	vagrant ssh -c "echo '$(WASBOOK_PASSWORD)' | sudo -S sh -c \"echo 'wasbook ALL=(ALL) NOPASSWD:ALL' > /etc/sudoers.d/wasbook\"" wasbook
+	vagrant ssh -c "sudo chown root:root /etc/sudoers.d/wasbook && sudo chmod 440 /etc/sudoers.d/wasbook" wasbook
+	/usr/local/bin/vagrant halt wasbook
+	touch .sudoers_settings
+
 
 .PHONY: start stop destroy ssh
-start: wasbook.box
+start: .sudoers_settings
 	WASBOOK_PASSWORD=$(WASBOOK_PASSWORD) /usr/local/bin/vagrant up wasbook
 
 stop:
@@ -32,6 +39,7 @@ stop:
 
 destroy:
 	/usr/local/bin/vagrant destroy wasbook
+	rm -f .sudoers_settings
 
 ssh:
 	/usr/local/bin/vagrant ssh wasbook
