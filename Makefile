@@ -4,6 +4,9 @@
 /usr/local/bin/vagrant:
 	brew cask install vagrant
 
+.vagrant/plugins.json: /usr/local/bin/vagrant vagrant_plugin_requirements.txt
+	cat vagrant_plugin_requirements.txt | xargs -I{} vagrant plugin install {} --local
+
 
 wasbook.ova:
 	curl $(OVF_DOWNLOAD_LINK) -o wasbook.ova
@@ -22,7 +25,7 @@ wasbook.box: /usr/local/bin/VBoxManage /usr/local/bin/vagrant .virtualbox/wasboo
 	vagrant box add wasbook.box --force --name wasbook
 	VBoxManage unregistervm wasbook
 
-.sudoers_settings: wasbook.box
+.sudoers_settings: wasbook.box .vagrant/plugins.json
 	-WASBOOK_PASSWORD=$(WASBOOK_PASSWORD) /usr/local/bin/vagrant up wasbook
 	vagrant ssh -c "echo '$(WASBOOK_PASSWORD)' | sudo -S sh -c \"echo 'wasbook ALL=(ALL) NOPASSWD:ALL' > /etc/sudoers.d/wasbook\"" wasbook
 	vagrant ssh -c "sudo chown root:root /etc/sudoers.d/wasbook && sudo chmod 440 /etc/sudoers.d/wasbook" wasbook
