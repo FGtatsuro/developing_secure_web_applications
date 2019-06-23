@@ -9,7 +9,7 @@
 
 
 wasbook.ova:
-	curl $(OVF_DOWNLOAD_LINK) -o wasbook.ova
+	curl $(OVA_DOWNLOAD_LINK) -o wasbook.ova
 
 .virtualbox/wasbook/wasbook.vbox: /usr/local/bin/VBoxManage wasbook.ova
 	VBoxManage import wasbook.ova --vsys 0 \
