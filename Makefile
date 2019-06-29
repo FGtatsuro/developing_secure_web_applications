@@ -37,7 +37,7 @@ wasbook.box: /usr/local/bin/VBoxManage /usr/local/bin/vagrant .virtualbox/wasboo
 start: .sudoers_settings dnsmasq/start
 	WASBOOK_PASSWORD=$(WASBOOK_PASSWORD) /usr/local/bin/vagrant up wasbook
 
-stop:
+stop: dnsmasq/stop
 	/usr/local/bin/vagrant halt wasbook
 
 destroy:
@@ -48,7 +48,7 @@ ssh:
 	/usr/local/bin/vagrant ssh wasbook
 
 
-.PHONY: dnsmasq/start
+.PHONY: dnsmasq/start dnsmasq/stop
 dnsmasq/start: /usr/local/bin/docker
 	if [ -z "`docker ps | grep dnsmasq`" ]; then \
 		docker run -d --name dnsmasq \
@@ -57,4 +57,9 @@ dnsmasq/start: /usr/local/bin/docker
 		--cap-add=NET_ADMIN \
 		andyshinn/dnsmasq:2.78 \
 		-H /home/hosts; \
+	fi
+
+dnsmasq/stop: /usr/local/bin/docker
+	if [ -n "`docker ps | grep dnsmasq`" ]; then \
+		docker rm -f dnsmasq; \
 	fi
