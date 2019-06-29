@@ -34,7 +34,7 @@ wasbook.box: /usr/local/bin/VBoxManage /usr/local/bin/vagrant .virtualbox/wasboo
 
 
 .PHONY: start stop destroy ssh
-start: .sudoers_settings dnsmasq
+start: .sudoers_settings dnsmasq/start
 	WASBOOK_PASSWORD=$(WASBOOK_PASSWORD) /usr/local/bin/vagrant up wasbook
 
 stop:
@@ -48,8 +48,8 @@ ssh:
 	/usr/local/bin/vagrant ssh wasbook
 
 
-.PHONY: dnsmasq
-dnsmasq: /usr/local/bin/docker
+.PHONY: dnsmasq/start
+dnsmasq/start: /usr/local/bin/docker
 	if [ -z "`docker ps | grep dnsmasq`" ]; then \
 		docker run -d --name dnsmasq \
 		-p 53:53/tcp -p 53:53/udp \
