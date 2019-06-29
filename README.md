@@ -34,7 +34,7 @@ $ sudo lsof -i:53
 $ make start OVA_DOWNLOAD_LINK=<ovaファイルのダウンロードリンク(書籍参照)> WASBOOK_PASSWORD=<VMのパスワード(書籍参照)>
 
 # 初回以降の起動
-$ make start WASBOOK_PASSWORD=<VMのパスワード(書籍参照)>
+$ make start
 
 # SSH接続
 $ make ssh
