@@ -63,3 +63,26 @@ dnsmasq/stop: /usr/local/bin/docker
 	if [ -n "`docker ps | grep dnsmasq`" ]; then \
 		docker rm -f dnsmasq; \
 	fi
+
+.PHONY: zap/network zap/start zap/stop zap/ui
+zap/network: /usr/local/bin/docker
+	if [ -z "`docker network ls | grep zap_network`" ]; then \
+		docker network create --driver bridge zap_network; \
+	fi
+
+zap/start: /usr/local/bin/docker zap/network
+	if [ -z "`docker ps | grep zap2docker-stable`" ]; then \
+		docker run -d --name zap -u zap \
+		--network zap_network \
+		-p 8080:8080 -p 8090:8090 \
+		owasp/zap2docker-stable \
+		zap-webswing.sh; \
+	fi
+
+zap/stop: /usr/local/bin/docker
+	if [ -n "`docker ps | grep zap2docker-stable`" ]; then \
+		docker rm -f zap; \
+	fi
+
+zap/ui:
+	open http://localhost:8080/zap
