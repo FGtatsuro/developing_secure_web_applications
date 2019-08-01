@@ -8,6 +8,9 @@
 - Homebrew
 - Make
 - Docker
+- [OWASP ZAP](https://www.owasp.org/index.php/OWASP_Zed_Attack_Proxy_Project)
+- Firefox
+   - [FoxyProxy](https://addons.mozilla.org/ja/firefox/addon/foxyproxy-standard/): 書籍に従い設定する
 
 ## 制約
 
